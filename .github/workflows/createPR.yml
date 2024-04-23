@@ -54,7 +54,7 @@ jobs:
     - run: echo "${{ steps.check-branch-creation.outputs.run }}"
     - run: echo "${{ steps.check-pr-exists.outputs.run }}"
     - name: Create Pull Request
-      if: ${{ steps.check-pr-exists.outputs.run == true && steps.check-branch-creation.outputs.run == true }}
+      if: ${{ steps.check-pr-exists.outputs.run == 'true' && steps.check-branch-creation.outputs.run == 'true' }}
       run: gh pr create -B main --title "PR for ${{ github.ref_name }} to main" --body "Auto created by GitHub action" --head "${{ github.ref_name }}" --repo "${{ github.repository }}"
       env:
         GH_TOKEN: ${{ github.token }}
