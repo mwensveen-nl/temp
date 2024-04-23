@@ -28,7 +28,7 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        if [ "${{ github.event.before }}" -eq "0000000000000000000000000000000000000000" ]
+        if [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]
         then
           echo skipping PR creation because event is a branch creation
           echo "run=false" >> "$GITHUB_OUTPUT"
