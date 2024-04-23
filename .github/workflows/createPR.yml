@@ -17,7 +17,8 @@ jobs:
     - uses: actions/checkout@v4.1.1
     - run: |
         count=$(gh pr list -H ${{ github.ref_name }} -B main --json closed --jq 'length')
-        if [ "$count" -gt 0]
+        echo "$count"
+        if [ "$count" -gt 0 ]
         then
           echo "run=false" >> "$GITHUB_OUTPUT"
         else
