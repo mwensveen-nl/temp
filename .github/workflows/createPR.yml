@@ -15,7 +15,7 @@ jobs:
       pull-requests: write
     steps:
     - uses: actions/checkout@v4.1.1
-    - run: gh pr list --json 
+    - run: gh pr list --json closed
       env:
         GH_TOKEN: ${{ github.token }}
     - run: echo "${{ github.ref_name }}"
