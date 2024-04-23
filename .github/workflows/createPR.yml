@@ -1,0 +1,55 @@
+# This workflow will create a Pull Request when a new branch is created in github
+
+name: Create PR for a new branch
+
+on:
+  push:
+    branches-ignore: 
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@v4.1.1
+    - run: gh pr list
+      env:
+        GH_TOKEN: ${{ github.token }}
+    - run: echo "${{ github.ref_name }}"
+    - run: echo "${{ github.repository }}"
+    - run: echo "${{ github.event.after }}"
+    - run: echo "${{ github.event.before }}"
+    - run: echo "${{ github.event_name }}"
+    - run: echo "$branch_creation"
+    - name: Check if push is branch creation
+      id: check-branch-creation
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        if (("${{ github.event.before }}" == "${{ github.event.before }}"; then
+          echo skipping PR creation because event is a branch creation
+          echo "skip=true" >> "$GITHUB_OUTPUT"
+        fi 
+    - name: Check if PR already exists
+      id: check-pr-exists
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        prs=$(gh pr list -B ${{ github.ref_name }} -H main)  
+        # Even when there are no PRs, this array always seems to have 1 result
+        echo Size of PRS ARRAY: ${#prs[@]}
+        # Locally, it seems the gh cli says 'no pull requests match your search..' but not here.
+        # The first element exists but is of length 0
+        echo Length of PRS[0] string: ${#prs[0]}
+        if ((${#prs[@]} > 0 && ${#prs[0]} != 0 )); then
+          echo skipping PR creation because it already exists
+          echo "skip=true" >> "$GITHUB_OUTPUT"
+        fi   
+    - name: Create Pull Request
+      if: ${{ steps.check-pr-exists.outputs.skip!=true && steps.check-branch-creation.skip!=true }}
+      run: gh pr create -B main --title "PR for ${{ github.ref_name }} to main" --body "Auto created by GitHub action" --head "${{ github.ref_name }}" --repo "${{ github.repository }}"
+      env:
+        GH_TOKEN: ${{ github.token }}
