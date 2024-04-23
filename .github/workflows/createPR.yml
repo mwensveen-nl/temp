@@ -30,7 +30,9 @@ jobs:
       run: |
         if (("${{ github.event.before }}" == "${{ github.event.before }}")); then
           echo skipping PR creation because event is a branch creation
-          echo "skip=true" >> "$GITHUB_OUTPUT"
+          echo "run1=false" >> "$GITHUB_OUTPUT"
+        else
+          echo "run1=true" >> "$GITHUB_OUTPUT"
         fi 
     - name: Check if PR already exists
       id: check-pr-exists
@@ -47,10 +49,10 @@ jobs:
           echo skipping PR creation because it already exists
           echo "skip=true" >> "$GITHUB_OUTPUT"
         fi   
-    - run: echo "${{steps.check-branch-creation.skip}}"
+    - run: echo "${{steps.check-branch-creation.run1}}"
     - run: echo "${{steps.check-pr-exists.outputs.skip}}"
     - name: Create Pull Request
-      if: ${{ steps.check-pr-exists.outputs.skip!=true && steps.check-branch-creation.skip!=true }}
+      if: ${{ steps.check-pr-exists.outputs.skip!=true && steps.check-branch-creation.run1 == true }}
       run: gh pr create -B main --title "PR for ${{ github.ref_name }} to main" --body "Auto created by GitHub action" --head "${{ github.ref_name }}" --repo "${{ github.repository }}"
       env:
         GH_TOKEN: ${{ github.token }}
