@@ -46,10 +46,10 @@ jobs:
           echo "run=true" >> "$GITHUB_OUTPUT"
         fi 
     - run: echo "${{ steps.check-pr-exists.outputs.run }}"
+    - run: echo "${{ steps.check-pr-exists.outputs.run == 'true' }}"
     - run: echo "${{ steps.check-branch-creation.outputs.run }}"
     - name: Create Pull Request
-      if:  |
-        ${{ steps.check-pr-exists.outputs.run == 'true' }} 
+      if: ${{ steps.check-pr-exists.outputs.run == 'true' }} 
       run: gh pr create -B main --title "PR for ${{ github.ref_name }} to main" --body "Auto created by GitHub action" --head "${{ github.ref_name }}" --repo "${{ github.repository }}"
       env:
         GH_TOKEN: ${{ github.token }}
