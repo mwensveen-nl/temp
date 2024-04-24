@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v4.1.1
     - run: echo "repository = ${{ github.repository }}"
     - run: echo "ref_name = ${{ github.ref_name }}"
-    - run: echo "commit befor = ${{ github.event.before }}"
+    - run: echo "commit before = ${{ github.event.before }}"
     - run: echo "commit after = ${{ github.event.after }}"
     - name: Check if PR already exists
       id: check-pr-exists
