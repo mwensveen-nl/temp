@@ -15,24 +15,24 @@ jobs:
       pull-requests: write
     steps:
     - uses: actions/checkout@v4.1.1
+    - run: echo "repository = ${{ github.repository }}"
+    - run: echo "ref_name = ${{ github.ref_name }}"
+    - run: echo "commit befor = ${{ github.event.before }}"
+    - run: echo "commit after = ${{ github.event.after }}"
     - name: Check if PR already exists
       id: check-pr-exists
       run: |
-        count=$(gh pr list -H ${{ github.ref_name }} -B main --json closed --jq 'length')
+        count=$(gh pr list -H ${{ github.ref_name }} -B main --repo "${{ github.repository }} --json closed --jq 'length')
         echo "$count"
         if [ "$count" -gt 0 ]
         then
+          echo skipping PR creation because the PR already exists
           echo "run=false" >> "$GITHUB_OUTPUT"
         else
           echo "run=true" >> "$GITHUB_OUTPUT"
         fi
       env:
         GH_TOKEN: ${{ github.token }}
-    - run: echo "${{ github.ref_name }}"
-    - run: echo "${{ github.repository }}"
-    - run: echo "${{ github.event.after }}"
-    - run: echo "${{ github.event.before }}"
-    - run: echo "${{ github.event_name }}"
     - name: Check if push is branch creation
       id: check-branch-creation
       env:
