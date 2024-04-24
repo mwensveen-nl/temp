@@ -22,7 +22,7 @@ jobs:
     - name: Check if PR already exists
       id: check-pr-exists
       run: |
-        count=$(gh pr list -H ${{ github.ref_name }} -B main --repo "${{ github.repository }} --json closed --jq 'length')
+        count=$(gh pr list -H ${{ github.ref_name }} -B main --repo ${{ github.repository }} --json closed --jq 'length')
         echo "$count"
         if [ "$count" -gt 0 ]
         then
