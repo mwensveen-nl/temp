@@ -5,7 +5,7 @@ name: Java Buid
 
 on:
   push:
-    branches-ignore: 
+    branches: 
       - 'main'
 
 jobs:
