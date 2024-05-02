@@ -25,6 +25,7 @@ jobs:
         server-id: github 
         server-username: ${{ github.actor }}
         server-password: ${{ secrets.MAVEN_REPO_READ }} 
+    - run: cat /home/runner/.m2/settings.xml
     - name: mvn
       run: mvn -X clean
     - name: Git Tag
