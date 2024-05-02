@@ -21,7 +21,7 @@ jobs:
     - name: Git Tag
       run: |
         #get version in pom.xml
-        version=$(mvn exec:exec -Dexec.executable=echo -Dexec.args='${project.version}' --quiet -N | sed 's/-SNAPSHOT//'
+        version=$(mvn exec:exec -Dexec.executable=echo -Dexec.args='${project.version}' --quiet -N | sed 's/-SNAPSHOT//')
         date=$(date '+%Y%m%d')
         buildnr=$1
         newversion="$version.$date$buildnr"
