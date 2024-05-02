@@ -23,11 +23,14 @@ jobs:
         java-version: '21'
         cache: maven
         server-id: github 
-        server-username: ${{ github.actor }}
-        server-password: ${{ secrets.MAVEN_REPO_READ }} 
+        server-username: GITHUB_USER
+        server-password: GITHUB_SECRET
     - run: cat /home/runner/.m2/settings.xml
     - name: mvn
       run: mvn -X clean
+      env: 
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB-SECRET: ${{ secrets.MAVEN_REPO_READ }}
     - name: Git Tag
       run: |
         #get version in pom.xml
