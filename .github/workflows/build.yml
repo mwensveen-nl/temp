@@ -23,7 +23,7 @@ jobs:
         #get version in pom.xml
         version=$(mvn exec:exec -Dexec.executable=echo -Dexec.args='${project.version}' --quiet -N | sed 's/-SNAPSHOT//')
         date=$(date '+%Y%m%d')
-        buildnr=$1
+        buildnr=${{github.run_number}}
         newversion="$version.$date$buildnr"
         echo "Tagging version  $newversion"
         remote=$(git remote)
