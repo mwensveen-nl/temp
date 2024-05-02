@@ -16,8 +16,17 @@ jobs:
       packages: read
     steps:
     - uses: actions/checkout@v3
-    - name: git
-      run: git --version
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4.2.1
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+        cache: maven
+        server-id: github 
+        server-username: ${{ github.actor }}
+        server-password: ${{ secrets.MAVEN_REPO_READ }} 
+    - name: mvn
+      run: mvn -X clean
     - name: Git Tag
       run: |
         #get version in pom.xml
