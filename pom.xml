@@ -6,5 +6,33 @@
 	<groupId>nl.mwensveen.test</groupId>
 	<artifactId>testproject</artifactId>
 	<version>1.2-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
+
+	<properties>
+		<jsondb-core.version>2.0.0</jsondb-core.version>
+	</properties>
+	<repositories>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/mwensveen-nl/releases</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.jsondb</groupId>
+			<artifactId>jsondb-core</artifactId>
+			<version>${jsondb-core.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.code.findbugs</groupId>
+					<artifactId>annotations</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+	</dependencies>
 </project>
