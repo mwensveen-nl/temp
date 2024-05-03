@@ -16,7 +16,7 @@
 	
 	<repositories>
 		<repository>
-			<id>github-private</id>
+			<id>github</id>
 			<url>https://maven.pkg.github.com/mwensveen-nl/releases</url>
 			<snapshots>
 				<enabled>true</enabled>
