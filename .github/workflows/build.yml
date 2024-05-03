@@ -26,12 +26,15 @@ jobs:
         server-username: GITHUB_USER
         server-password: GITHUB_SECRET
     - run: cat /home/runner/.m2/settings.xml
-    - name: mvn
-      run: mvn -X clean
+    - name: mvn build
       env: 
         GITHUB_USER: ${{ github.actor }}
         GITHUB-SECRET: ${{ secrets.MAVEN_REPO_READ }}
+      run: mvn -X clean verify
     - name: Git Tag
+      env: 
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB-SECRET: ${{ secrets.MAVEN_REPO_READ }}
       run: |
         #get version in pom.xml
         version=$(mvn exec:exec -Dexec.executable=echo -Dexec.args='${project.version}' --quiet -N | sed 's/-SNAPSHOT//')
